@@ -1,34 +1,46 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Image, TextInput, TouchableOpacity, Text } from 'react-native'
 import logo from '../assets/logo.png'
-export default function Login(){
+export default function Login({ navigation }){
+
+    const [user, setUser] = useState('')
+    const [pass, setPass] = useState('')
+
     return(
+        <>
         <KeyboardAvoidingView
             behavior='height'
             style={styles.container}>
                 <Image source={logo}/>
                 <TextInput
-                    //textContentType={none}
-                    //textContentType={username}
                     autoCapitalize="none"
                     autoCorrect={false}
                     placeholder="Username or email address"
                     placeholderTextColor="#999"
-                    style={styles.email}/>
+                    style={styles.email}
+                    value={user}
+                    onChangeText={setUser}
+                    />
                 <TextInput
                     secureTextEntry={true}
-                    //textContentType={password}
                     autoCapitalize="none"
                     autoCorrect={false}
-                    //autoCompleteType={off}
                     placeholder="Password"
                     placeholderTextColor="#999"
                     style={styles.password}
+                    value={pass}
+                    onChangeText={setPass}
                     />
-                <TouchableOpacity style={styles.signIn}>
-                    <Text style={styles.signInText}>Sign In</Text>
+                    
+                <TouchableOpacity
+                    onPress={() => {
+                        navigation.navigate('Profile', { github_username: user, github_password: pass })
+                    }}
+                    style={styles.signIn}>
+                    <Text style={styles.signInText}>Sign In</Text>                
                 </TouchableOpacity>
         </KeyboardAvoidingView>
+        </>
     )
 }
 
