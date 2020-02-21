@@ -7,36 +7,28 @@ export default function Login(){
             behavior='height'
             style={styles.container}>
                 <Image source={logo}/>
-                <Text style={styles.textJoin}>Join GitHub</Text>
-                <Text style={styles.textCreate}>Create your account</Text>
                 <TextInput
-                    //textContentType={none}
-                    //textContentType={username}
                     autoCapitalize="none"
                     autoCorrect={false}
-                    placeholder="Username"
+                    placeholder="Pick a username"
                     placeholderTextColor="#999"
                     style={styles.username}/>
                 <TextInput
-                    //textContentType={none}
-                    //textContentType={username}
                     autoCapitalize="none"
                     autoCorrect={false}
-                    placeholder="Email address"
+                    placeholder="Your email address"
                     placeholderTextColor="#999"
                     style={styles.email}/>
                 <TextInput
                     secureTextEntry={true}
-                    //textContentType={password}
                     autoCapitalize="none"
                     autoCorrect={false}
-                    //autoCompleteType={off}
-                    placeholder="Password"
+                    placeholder="Create a password"
                     placeholderTextColor="#999"
                     style={styles.password}
                     />
-                <TouchableOpacity style={styles.signIn}>
-                    <Text style={styles.signInText}>Sign In</Text>
+                <TouchableOpacity style={styles.signUp}>
+                    <Text style={styles.signUpText}>Sign up</Text>
                 </TouchableOpacity>
         </KeyboardAvoidingView>
     )
@@ -47,15 +39,14 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#fff',
+      padding: 20,
       alignItems: 'center',
-      justifyContent: 'center',
-      padding: 20
+    justifyContent: 'center',
     },
-    textJoin: {
-
-    },
-    textCreate: {
-        
+    text: {
+        color: '#999',
+        fontWeight: 'bold',
+        fontSize: 16,
     },
     username: {
         height: 46,
@@ -74,7 +65,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#ddd',
         borderRadius: 4,
-        marginTop: 20,
+        marginTop: 5,
         paddingHorizontal: 15,
     },
     password: {
@@ -88,7 +79,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
     },
     signUp: {
-        marginTop: 5,
+        marginTop: 20,
         height: 46,
         alignSelf: 'stretch',
         backgroundColor: '#2EBC4f',
