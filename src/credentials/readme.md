@@ -10,4 +10,4 @@ File: `github.json`
         "ClientSecret": "0000000000",
     }
 ```
-Obs: estas credenciais não são válidas, para criar seu app, faça o processo neste <a href="https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/" >Link</a> e depois, vá neste <a href="https://github.com/settings/developers">Link</a>, clique no app que você criou, e use suas credenciais.
+Obs: estas credenciais não são válidas, para criar seu app, faça o processo neste <a href="https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/" >Link</a> e depois, vá neste outro <a href="https://github.com/settings/developers">Link</a>, clique no app que você criou, e use suas credenciais.
