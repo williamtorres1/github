@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "react": "16.9.0",
-    "react-native": "0.61.5"
+    "react-native": "0.61.5",
+    "react-native-oauth": "^2.1.18"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
