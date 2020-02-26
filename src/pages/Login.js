@@ -1,5 +1,4 @@
 import React from 'react'
-import { View, Text } from 'react-native'
 import OAuthManager from 'react-native-oauth'
 import { ClientID, ClientSecret } from '../credentials/github.json'
 
@@ -27,9 +26,5 @@ export default function Login(){
     manager.authorize('github')
         .then(resp => console.log(`Hi, your req return successfull:`, resp))
         .catch(err => console.log(`Hi, your req return error:`, err))
-    return(
-        <View>
-            <Text>Hello again, friend of a friend</Text>
-        </View>
-    )
+    return
 }
