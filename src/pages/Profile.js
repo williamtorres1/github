@@ -16,7 +16,7 @@ export default function Profile({ navigation }){
 
             <Text style={styles.text}>
                 <Image source={Company} style={styles.image}/>
-                SOFTMAKERSBRAZILLLLLLKJFÇLSGJLDKFJGÇLKSDJGSKFSS
+                IFPE
             </Text>
             <Text style={styles.text}>
                 <Image source={Location} style={styles.image}/>
@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         borderWidth: 2,
         borderColor: '#999',
+        marginRight: 125
     },
     name:{
         fontWeight: 'bold',
@@ -57,14 +58,11 @@ const styles = StyleSheet.create({
     bio:{
         color: '#666',
         marginTop: 16,
-        paddingHorizontal: 90,
         textAlign: 'left'
 
     },
     image: {
-        resizeMode: 'stretch',
         width: 16,
         height: 16,
-        marginRight: 1
     }
 })
