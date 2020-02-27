@@ -10,13 +10,10 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@react-native-community/async-storage": "^1.8.0",
     "axios": "^0.19.2",
     "react": "16.9.0",
     "react-native": "0.61.5",
-    "react-native-gesture-handler": "^1.6.0",
-    "react-native-oauth": "^2.1.18",
-    "react-navigation": "^4.2.2"
+    "react-native-oauth": "^2.1.18"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",

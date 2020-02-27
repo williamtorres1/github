@@ -11,7 +11,7 @@ const config = {
 
 const manager = new OAuthManager('OpenGit')
 
-export default function Login(){
+export default function Login({ navigation }){
     manager.configure(config)
 
     manager.addProvider({

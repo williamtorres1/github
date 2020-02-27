@@ -2,34 +2,21 @@ import React, { useState } from 'react';
 import { StyleSheet, Image, View, TextInput, TouchableOpacity, AsyncStorage} from 'react-native'
 import Axios from 'axios'
 import finder from '../assets/finder.png'
-import Login from './Login';
 
 export default function Search({ navigation }){
-    const [devs, setDevs] = useState([{}])
+    const [devs, setDevs] = useState([])
 
     async function searchDevs(){
         const AxiosResponse = await Axios.get(`https://api.github.com/users/${devs}`)
-/*
-        const dev = {
-            name: name,
-            id: id,
-            avatar_url: avatar_url,
-            bio: bio,
-            company: company,
-            blog: blog,
-            location: location,
-            email: email,
-            starred_url: starred_url,
-            repos_url: repos_url
-        }
-        */
 
-        // navigation.navigate('Profile', {github_username: dev.github_username})
-        //     }}
+        setDevs(AxiosResponse.data)
+        
+        navigation.navigate('Profile')
+
+        
     }
 
     return (
-    <>
         <View style={styles.searchForm}>
             <TextInput 
                 style={styles.searchInput}
@@ -44,7 +31,6 @@ export default function Search({ navigation }){
                 <Image style={styles.loadImage} source={finder}/>
             </TouchableOpacity>
         </View>
-    </>
     )
 }
 
@@ -76,7 +62,7 @@ const styles = StyleSheet.create({
     loadButton: {
         width: 50,
         height: 50,        
-        backgroundColor: '#999',
+        backgroundColor: '#9999',
         borderRadius: 25,
         justifyContent: 'center',
         alignItems: 'center',

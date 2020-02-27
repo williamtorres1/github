@@ -5,9 +5,10 @@ import Location from '../assets/pin.png'
 import Mail from '../assets/mail.png'
 import Blog from '../assets/link.png'
 
-export default function Profile({ navigation }){
+export default function Profile(){
     // const github_username = navigation.getParam('github_username')
     return (
+        <>
         <View>
             <Image style={styles.avatar} source={{uri: "https://avatars0.githubusercontent.com/u/39351781?v=4"}}/>
             <Text style={styles.name}>William Torres</Text>
@@ -32,6 +33,11 @@ export default function Profile({ navigation }){
                 linkedin.com/in/williamtorres1
             </Text>
         </View>
+
+
+
+        
+        </>
     )
 }
 
