@@ -7,19 +7,37 @@ export default function Search({ navigation: { navigate } }){
     const [devs, setDevs] = useState('')
 
     async function searchDevs(){
-        // const AxiosResponse = await Axios.get(`https://api.github.com/users/${devs}`)
+        const AxiosResponse = await Axios.get(`https://api.github.com/users/${devs}`)
+        const { 
+                name = login, 
+                avatar_url, 
+                id, 
+                company, 
+                blog, 
+                location, 
+                email, 
+                bio,
+                repos_url,
+                public_repos,
+                starred_url,
+            } = AxiosResponse.data
+
+
         const sourceContent = {
-            avatar_url: 'https://avatars0.githubusercontent.com/u/39351781?v=4',
-            id: 39351781,
-            name: 'William Torres',
-            company: 'IFPE',
-            blog: 'linkedin.com/in/williamtorres1',
-            location: 'Caruaru, Pernambuco - Brasil',
-            email: 'williamtorres074@gmail.com',
-            bio: 'Técnico em Mecatrônica. Aspirante a programador.'
+            avatar_url: avatar_url,
+            id: id,
+            name: name,
+            company: company,
+            blog: blog,
+            location: location,
+            email: email,
+            bio: bio,
+            repos_url: repos_url,
+            starred_url: starred_url,
+            numberRepos: public_repos
         }
-        const username = 'williamtorres1'
-        navigate('Profile', {github_username: username})        
+
+        navigate('Profile', {dev: sourceContent})        
     }
  
     return (
