@@ -2,6 +2,7 @@ apply plugin: "com.android.application"
 
 import com.android.build.OutputFile
 
+
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
  * and bundleReleaseJsAndAssets).
@@ -181,6 +182,9 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02'
+    
 
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";

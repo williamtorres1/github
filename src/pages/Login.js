@@ -1,6 +1,7 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
 import OAuthManager from 'react-native-oauth'
+import Search from './Search'
 import { ClientID, ClientSecret } from '../credentials/github.json'
 
 const config = {
@@ -12,7 +13,7 @@ const config = {
 
 const manager = new OAuthManager('OpenGit')
 
-export default function Login(){
+export default function Login({ navigation: { navigate } }){
     manager.configure(config)
 
     manager.addProvider({
@@ -28,8 +29,6 @@ export default function Login(){
         .then(resp => console.log(`Hi, your req return successfull:`, resp))
         .catch(err => console.log(`Hi, your req return error:`, err))
     return(
-        <View>
-            <Text>Hello again, friend of a friend</Text>
-        </View>
+        <View/>
     )
 }
