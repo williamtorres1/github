@@ -23,7 +23,7 @@ export default function Login({ navigation: { navigate } }){
         }
     })
     manager.authorize('github')
-        .then(resp => console.log(`Hi, your req return successfull:`, resp))
+        .then(navigate('Search'))
         .catch(err => console.log(`Hi, your req return error:`, err))
     return(
         <View/>

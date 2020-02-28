@@ -4,7 +4,7 @@ import Axios from 'axios'
 import finder from '../assets/finder.png'
 
 export default function Search({ navigation: { navigate } }){
-    const [devs, setDevs] = useState('')
+    const [devs, setDevs] = useState([''])
 
     async function searchDevs(){
         const AxiosResponse = await Axios.get(`https://api.github.com/users/${devs}`)
