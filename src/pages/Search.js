@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { StyleSheet, Image, View, TextInput, TouchableOpacity, AsyncStorage} from 'react-native'
+import { Text, StyleSheet, Image, View, TextInput, TouchableOpacity } from 'react-native'
 import Axios from 'axios'
 import finder from '../assets/finder.png'
 
 export default function Search({ navigation: { navigate } }){
-    const [devs, setDevs] = useState()
+    const [devs, setDevs] = useState('')
 
     async function searchDevs(){
         const AxiosResponse = await Axios.get(`https://api.github.com/users/${devs}`)
@@ -38,33 +38,36 @@ export default function Search({ navigation: { navigate } }){
             starred_url: starred_url,
             numberRepos: public_repos
         }
-
         navigate('Profile', {dev: sourceContent})        
     }
  
     return (
-        <View style={styles.searchForm}>
-            <TextInput 
-                style={styles.searchInput}
-                placeholder="Procurar devs"
-                placeholderTextColor="#999"
-                autoCapitalize="none"
-                autoCorrect={false}
-                value={devs}
-                onChangeText={setDevs}
-            />
-            <TouchableOpacity style={styles.loadButton} onPress={searchDevs}>
-                <Image style={styles.searchButton} source={finder}/>
-            </TouchableOpacity>
+        <View style={{flex: 1}}>
+            <View style={styles.searchForm}>
+                <TextInput 
+                    style={styles.searchInput}
+                    placeholder="Procurar devs"
+                    placeholderTextColor="#999"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    value={devs}
+                    onChangeText={setDevs}
+                />
+                <TouchableOpacity style={styles.loadButton} onPress={searchDevs}>
+                    <Image style={styles.searchButton} source={finder}/>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.usersSearcheds}>
+
+            </View>
         </View>
+            
     )
 }
 
 const styles = StyleSheet.create({
-    container:{
-        backgroundColor: '#fefefe'
-    },
     searchForm: {
+        flex: 1,
         position: 'absolute',
         top: 5,
         left: 20,
@@ -101,5 +104,11 @@ const styles = StyleSheet.create({
     },
     searchButton: {
         resizeMode: 'center'
+    },
+
+
+    usersSearcheds:{
+        paddingVertical: 75,
+        paddingHorizontal: 20        
     }
 })
