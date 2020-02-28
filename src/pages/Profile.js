@@ -1,97 +1,143 @@
 import React from 'react'
-import { View, Text, Image, StyleSheet, Button } from 'react-native'
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
 
-import Company from '../assets/company.png'
-import Location from '../assets/pin.png'
-import Mail from '../assets/mail.png'
-import Blog from '../assets/link.png'
-
-
+import location from '../assets/location.png'
+import link from '../assets/link.png'
+import mail from '../assets/mail.png'
+import work from '../assets/work.png'
 
 export default function Profile({ navigation:{ navigate }, route }){
     const user = route.params.dev
     return (
-        <>
-        {/* Infos do perfil */}
-        <View>
+        <View style={{flex: 1, backgroundColor: '#fafafa'}}>
+        <View style={styles.container}>
             <Image style={styles.avatar} source={{uri: user.avatar_url}}/>
-            <Text style={styles.name}>{user.name}</Text>
-            <Text style={styles.bio}>{user.bio}</Text>
-
-
-            <Text style={styles.text}>
-                <Image source={Company} style={styles.image}/>
-                {user.company}
-            </Text>
-            <Text style={styles.text}>
-                <Image source={Location} style={styles.image}/>
-                {user.location}
-            </Text>
-                <Text style={styles.text}>                
-                <Image source={Mail} style={styles.image}/>
-                {user.email}
-            </Text>            
-            <Text style={styles.text}>
-                <Image source={Blog} style={styles.image}/>
-                {user.blog}
-            </Text>
+            <View style={{flexDirection: 'column'}}>
+                <Text style={styles.name}>{user.name}</Text>
+                <Text style={styles.username}>{user.username}</Text>
+            </View>            
         </View>
 
-        <Button 
-            title="Repositories here!"
-            onPress={() => {
-                navigate('Repos', {login: user.username})}} 
-        />
-        <Button 
-            title="Stars here!"
-            onPress={() => {
-                navigate('Stars', {login: user.username})}} 
-        />
-        
-        </>
+        <View style={styles.infoContainer}>
+            <Text style={styles.bio}>{user.bio}</Text>
+            <View style={{flexDirection: 'row'}}>
+                <Image source={work}/>
+                <Text style={styles.text}>{user.company}</Text>
+            </View>
+
+            <View style={{flexDirection: 'row'}}>
+                <Image source={location}/>
+                <Text style={styles.text}>{user.location}</Text>
+            </View>
+
+            <View style={{flexDirection: 'row'}}>
+                <Image source={mail}/>
+                <Text style={styles.text}>{user.email}</Text>
+            </View>
+
+            <View style={{flexDirection: 'row'}}>
+                <Image source={link}/>
+                <Text style={styles.text}>{user.blog}</Text>
+            </View>
+            
+        </View>
+            
+        <View style={styles.buttonContainer}>
+            <TouchableOpacity 
+                style={styles.repositoriesButton}
+                title="Repositories"
+                onPress={() => {
+                    navigate('Repos', {login: user.username})}} 
+            >
+                <Text style={styles.buttonText}>Repositories</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.starsButton}
+                title="Stars"
+                onPress={() => {
+                    navigate('Stars', {login: user.username})}} 
+            >
+                <Text style={styles.buttonText}>Stars</Text>
+            </TouchableOpacity>
+        </View>
+
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
+    container:{
+        flexDirection: 'row',
+        backgroundColor: '#fefefe',
+        padding: 20
+    },
     avatar:{
         width: 100,
         height: 100,
-        borderRadius: 5,
-        borderWidth: 5,
-        borderColor: '#999',
-    },
-    text:{
-        textAlign: 'left',
-        color: '#000',
-        marginBottom: 10,
-        borderWidth: 2,
-        borderColor: '#999',
-        marginRight: 125
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: '#CCCED0',
     },
     name:{
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 28,
+        paddingHorizontal: 15,
+        marginTop: 15
+    },
+    username:{
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#999',
+        paddingHorizontal: 15,
+    },
+
+    infoContainer: {
+        flexDirection: 'column',
+        backgroundColor: '#FFF',
+        borderWidth: 1,
+        borderColor: '#DDD',
+        padding: 20,
+        marginBottom: 20,
     },
     bio:{
-        color: '#666',
-        marginTop: 16,
-        textAlign: 'left'
+        marginBottom: 10
     },
-    image: {
-        width: 16,
-        height: 16,
+    text:{
+        paddingHorizontal: 5
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 
-    container:{
-        flex: 1,
-
+    repositoriesButton:{
+        height: 37,
+        width: 130,
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: "#CCCED0",
+        backgroundColor: '#f2f5f7',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: 10
     },
-    repos: {
-        justifyContent: 'center'
-
+    starsButton:{
+        height: 37,
+        width: 70,
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: "#CCCED0",
+        backgroundColor: '#f2f5f7',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: 10
     },
-    stars: {
-        justifyContent: 'space-evenly'
+    buttonText: {
+        fontSize: 16,
+        color: '#575c60',
+        fontWeight: 'bold'
+
 
     }
 })

@@ -16,7 +16,7 @@ export default function Routes(){
         <>
             <NavigationContainer>
                 <Drawer.Navigator initialRouteName="Home">
-                    {/* <Drawer.Screen name="Login" component={Login}/> */}
+                    <Drawer.Screen name="Login" component={Login}/>
                     <Drawer.Screen name="Search" component={Search}/>
                     <Drawer.Screen name="Profile" component={Profile}/>
                     <Drawer.Screen name="Repos" component={Repos}/>
