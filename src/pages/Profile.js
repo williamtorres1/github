@@ -9,7 +9,7 @@ import work from '../assets/work.png'
 export default function Profile({ navigation:{ navigate }, route }){
     const user = route.params.dev
     return (
-        <View style={{flex: 1}}>
+        <View style={{flex: 1, backgroundColor: '#fafafa'}}>
         <View style={styles.container}>
             <Image style={styles.avatar} source={{uri: user.avatar_url}}/>
             <View style={{flexDirection: 'column'}}>
