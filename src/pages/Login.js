@@ -1,5 +1,7 @@
 import React from 'react'
+import { View } from 'react-native'
 import OAuthManager from 'react-native-oauth'
+import Search from './Search'
 import { ClientID, ClientSecret } from '../credentials/github.json'
 
 const config = {
@@ -11,7 +13,7 @@ const config = {
 
 const manager = new OAuthManager('OpenGit')
 
-export default function Login({ navigation }){
+export default function Login({ navigation: { navigate } }){
     manager.configure(config)
 
     manager.addProvider({
@@ -26,5 +28,7 @@ export default function Login({ navigation }){
     manager.authorize('github')
         .then(resp => console.log(`Hi, your req return successfull:`, resp))
         .catch(err => console.log(`Hi, your req return error:`, err))
-    return
+    return(
+        <View/>
+    )
 }

@@ -5,11 +5,15 @@ import Location from '../assets/pin.png'
 import Mail from '../assets/mail.png'
 import Blog from '../assets/link.png'
 
-export default function Profile(){
-    // const github_username = navigation.getParam('github_username')
+
+export default function Profile({ navigation }){
+    const user = Profile.params?.someParam ?? 'defaultValue';
+    console.log(user);
     return (
         <>
+        
         <View>
+            
             <Image style={styles.avatar} source={{uri: "https://avatars0.githubusercontent.com/u/39351781?v=4"}}/>
             <Text style={styles.name}>William Torres</Text>
             <Text style={styles.bio}>Técnico em Mecatrônica. Aspirante a programador. @williamtorres074@gmail.com</Text>

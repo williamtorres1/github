@@ -3,19 +3,26 @@ import { StyleSheet, Image, View, TextInput, TouchableOpacity, AsyncStorage} fro
 import Axios from 'axios'
 import finder from '../assets/finder.png'
 
-export default function Search({ navigation }){
-    const [devs, setDevs] = useState([])
+export default function Search({ navigation: { navigate } }){
+    const [devs, setDevs] = useState('')
 
     async function searchDevs(){
-        const AxiosResponse = await Axios.get(`https://api.github.com/users/${devs}`)
-
-        setDevs(AxiosResponse.data)
-        
-        navigation.navigate('Profile')
-
-        
+        // const AxiosResponse = await Axios.get(`https://api.github.com/users/${devs}`)
+        const sourceContent = {
+            avatar_url: 'https://avatars0.githubusercontent.com/u/39351781?v=4',
+            id: 39351781,
+            name: 'William Torres',
+            company: 'IFPE',
+            blog: 'linkedin.com/in/williamtorres1',
+            location: 'Caruaru, Pernambuco - Brasil',
+            email: 'williamtorres074@gmail.com',
+            bio: 'Técnico em Mecatrônica. Aspirante a programador.'
+        }
+        console.log(sourceContent)
+        const username = 'williamtorres1'
+        navigate('Profile', {github_username: username})        
     }
-
+ 
     return (
         <View style={styles.searchForm}>
             <TextInput 
@@ -71,5 +78,4 @@ const styles = StyleSheet.create({
     loadImage: {
         resizeMode: 'center'
     }
-
 })
