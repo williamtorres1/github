@@ -18,7 +18,6 @@ export default function Search({ navigation: { navigate } }){
             email: 'williamtorres074@gmail.com',
             bio: 'Técnico em Mecatrônica. Aspirante a programador.'
         }
-        console.log(sourceContent)
         const username = 'williamtorres1'
         navigate('Profile', {github_username: username})        
     }
