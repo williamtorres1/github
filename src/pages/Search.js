@@ -4,7 +4,7 @@ import Axios from 'axios'
 import finder from '../assets/finder.png'
 
 export default function Search({ navigation: { navigate } }){
-    const [devs, setDevs] = useState([''])
+    const [devs, setDevs] = useState()
 
     async function searchDevs(){
         const AxiosResponse = await Axios.get(`https://api.github.com/users/${devs}`)
@@ -54,13 +54,16 @@ export default function Search({ navigation: { navigate } }){
                 onChangeText={setDevs}
             />
             <TouchableOpacity style={styles.loadButton} onPress={searchDevs}>
-                <Image style={styles.loadImage} source={finder}/>
+                <Image style={styles.searchButton} source={finder}/>
             </TouchableOpacity>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
+    container:{
+        backgroundColor: '#fefefe'
+    },
     searchForm: {
         position: 'absolute',
         top: 5,
@@ -72,7 +75,7 @@ const styles = StyleSheet.create({
     searchInput: {
         flex: 1,
         height: 50,
-        backgroundColor: '#FFF',
+        backgroundColor: '#fafafa',
         color: '#333',
         borderRadius: 25,
         paddingHorizontal: 20,
@@ -83,18 +86,20 @@ const styles = StyleSheet.create({
             width: 4,
             height: 4
         },
-        elevation: 1
+        elevation: 1,
+        marginTop: 10
     },
     loadButton: {
         width: 50,
         height: 50,        
-        backgroundColor: '#9999',
+        backgroundColor: '#fafafa',
         borderRadius: 25,
         justifyContent: 'center',
         alignItems: 'center',
         marginLeft: 15,
+        marginTop: 10
     },
-    loadImage: {
+    searchButton: {
         resizeMode: 'center'
     }
 })
