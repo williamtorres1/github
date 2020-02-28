@@ -60,8 +60,7 @@ export default function Profile({ navigation:{ navigate }, route }){
                 <Text style={styles.buttonText}>Stars</Text>
             </TouchableOpacity>
         </View>
-            
-                
+
         </View>
     )
 }
