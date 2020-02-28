@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, Text, Image, StyleSheet, Button } from 'react-native'
 
 import Company from '../assets/company.png'
 import Location from '../assets/pin.png'
@@ -7,35 +7,47 @@ import Mail from '../assets/mail.png'
 import Blog from '../assets/link.png'
 
 
-export default function Profile({ navigation }){
-    const user = Profile.params?.someParam ?? 'defaultValue';
-    console.log(user);
+
+export default function Profile({ navigation:{ navigate }, route }){
+    const user = route.params.dev
     return (
         <>
+        {/* Infos do perfil */}
         <View>
-            <Image style={styles.avatar} source={{uri: "https://avatars0.githubusercontent.com/u/39351781?v=4"}}/>
-            <Text style={styles.name}>William Torres</Text>
-            <Text style={styles.bio}>Técnico em Mecatrônica. Aspirante a programador. @williamtorres074@gmail.com</Text>
+            <Image style={styles.avatar} source={{uri: user.avatar_url}}/>
+            <Text style={styles.name}>{user.name}</Text>
+            <Text style={styles.bio}>{user.bio}</Text>
 
 
             <Text style={styles.text}>
                 <Image source={Company} style={styles.image}/>
-                IFPE
+                {user.company}
             </Text>
             <Text style={styles.text}>
                 <Image source={Location} style={styles.image}/>
-                Caruaru, Pernambuco - Brasil
+                {user.location}
             </Text>
-            <Text style={styles.text}>
+                <Text style={styles.text}>                
                 <Image source={Mail} style={styles.image}/>
-                williamtorres074@gmail.com
-
-            </Text>
+                {user.email}
+            </Text>            
             <Text style={styles.text}>
                 <Image source={Blog} style={styles.image}/>
-                linkedin.com/in/williamtorres1
+                {user.blog}
             </Text>
         </View>
+
+        <Button 
+            title="Repositories here!"
+            onPress={() => {
+                navigate('Repos', {login: user.username})}} 
+        />
+        <Button 
+            title="Stars here!"
+            onPress={() => {
+                navigate('Stars', {login: user.username})}} 
+        />
+        
         </>
     )
 }
@@ -64,10 +76,22 @@ const styles = StyleSheet.create({
         color: '#666',
         marginTop: 16,
         textAlign: 'left'
-
     },
     image: {
         width: 16,
         height: 16,
+    },
+
+    container:{
+        flex: 1,
+
+    },
+    repos: {
+        justifyContent: 'center'
+
+    },
+    stars: {
+        justifyContent: 'space-evenly'
+
     }
 })
