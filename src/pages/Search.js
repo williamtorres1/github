@@ -9,7 +9,8 @@ export default function Search({ navigation: { navigate } }){
     async function searchDevs(){
         const AxiosResponse = await Axios.get(`https://api.github.com/users/${devs}`)
         const { 
-                name = login, 
+                name = login,
+                login, 
                 avatar_url, 
                 id, 
                 company, 
@@ -27,6 +28,7 @@ export default function Search({ navigation: { navigate } }){
             avatar_url: avatar_url,
             id: id,
             name: name,
+            username: login,
             company: company,
             blog: blog,
             location: location,

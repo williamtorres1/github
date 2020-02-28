@@ -8,7 +8,7 @@ import Blog from '../assets/link.png'
 
 
 
-export default function Profile({ navigation, route }){
+export default function Profile({ navigation:{ navigate }, route }){
     const user = route.params.dev
     return (
         <>
@@ -37,8 +37,16 @@ export default function Profile({ navigation, route }){
             </Text>
         </View>
 
-        <Button onPress={<WebView source={{ uri: `https://github.com/${user.login}?tab=repositories`}}/>}/>
-        <Button onPress={}/>
+        <Button 
+            title="Repositories here!"
+            onPress={() => {
+                navigate('Repos', {login: user.username})}} 
+        />
+        <Button 
+            title="Stars here!"
+            onPress={() => {
+                navigate('Stars', {login: user.username})}} 
+        />
         
         </>
     )
