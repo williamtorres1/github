@@ -11,11 +11,13 @@ export default function Search({ navigation: { navigate } }){
 
     useEffect(() => {
         AsyncStorage.getItem('@github/recents')
-        .then(users => {
-            setUsersSearcheds(JSON.parse(users));
-        })
-        .catch(error => {
-            console.log(error)
+            .then(users => {
+                if (JSON.parse(users)){
+                    setUsersSearcheds(JSON.parse(users));
+                }
+            })
+            .catch(error => {
+                console.log(error)
         });
     }, []);
     async function searchDevs(){
@@ -61,7 +63,7 @@ export default function Search({ navigation: { navigate } }){
         }else {
             await AsyncStorage.removeItem('@github/recents');
             await AsyncStorage.setItem('@github/recents', JSON.stringify([devs]) );
-            await setUsersSearcheds(devs);
+            await setUsersSearcheds([devs]);
         }
         navigate('Profile', {dev: sourceContent})
                 
