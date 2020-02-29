@@ -58,8 +58,16 @@ export default function Search({ navigation: { navigate } }){
         if(recents){
             recents.push(devs);
             await AsyncStorage.removeItem('@github/recents');
-            await AsyncStorage.setItem('@github/recents', JSON.stringify(recents) );
-            await setUsersSearcheds(recents);
+            const userExists = AsyncStorage.getItem('@github/recents')
+                .then(users => {
+                    if (JSON.parse(users)){
+                        setUsersSearcheds(JSON.parse(users));
+                    }
+                })
+            if(!userExists){
+                await AsyncStorage.setItem('@github/recents', JSON.stringify(recents) );
+                await setUsersSearcheds(recents);
+            }
         }else {
             await AsyncStorage.removeItem('@github/recents');
             await AsyncStorage.setItem('@github/recents', JSON.stringify([devs]) );
@@ -79,6 +87,8 @@ export default function Search({ navigation: { navigate } }){
                     placeholderTextColor="#616467"
                     autoCapitalize="none"
                     autoCorrect={false}
+                    returnKeyType="go"
+                    onSubmitEditing={searchDevs}
                     value={devs}
                     onChangeText={setDevs}
                 />
