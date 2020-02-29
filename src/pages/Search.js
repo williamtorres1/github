@@ -12,7 +12,6 @@ export default function Search({ navigation: { navigate } }){
     useEffect(() => {
         AsyncStorage.getItem('@github/recents')
         .then(users => {
-            // console.log(JSON.parse(users));
             setUsersSearcheds(JSON.parse(users));
         })
         .catch(error => {
@@ -54,7 +53,6 @@ export default function Search({ navigation: { navigate } }){
 
 
         const recents = JSON.parse(await AsyncStorage.getItem('@github/recents'));
-        console.log(recents);
         if(recents){
             recents.push(devs);
             await AsyncStorage.removeItem('@github/recents');
@@ -88,9 +86,9 @@ export default function Search({ navigation: { navigate } }){
             </View>
 
             <View style={styles.usersSearcheds}>
-                {usersSearcheds.map( (user, index) => (
+                { usersSearcheds ? usersSearcheds.map( (user, index) => (
                     <Text key={index} style={styles.usersSearcheds}>{user}</Text>
-                ))}
+                )): <Text>Sem recentes pesquisas</Text>}
             </View>
         
         </View>
