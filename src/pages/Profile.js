@@ -10,56 +10,57 @@ export default function Profile({ navigation:{ navigate }, route }){
     const user = route.params.dev
     return (
         <View style={{flex: 1, backgroundColor: '#fafafa'}}>
-        <View style={styles.container}>
-            <Image style={styles.avatar} source={{uri: user.avatar_url}}/>
-            <View style={{flexDirection: 'column'}}>
-                <Text style={styles.name}>{user.name}</Text>
-                <Text style={styles.username}>{user.username}</Text>
-            </View>            
-        </View>
 
-        <View style={styles.infoContainer}>
-            <Text style={styles.bio}>{user.bio}</Text>
-            <View style={{flexDirection: 'row'}}>
-                <Image source={work}/>
-                <Text style={styles.text}>{user.company}</Text>
+            <View style={styles.container}>
+                <Image style={styles.avatar} source={{uri: user.avatar_url}}/>
+                <View style={{flexDirection: 'column'}}>
+                    <Text style={styles.name}>{user.name}</Text>
+                    <Text style={styles.username}>{user.username}</Text>
+                </View>            
             </View>
 
-            <View style={{flexDirection: 'row'}}>
-                <Image source={location}/>
-                <Text style={styles.text}>{user.location}</Text>
-            </View>
+            <View style={styles.infoContainer}>
+                <Text style={styles.bio}>{user.bio}</Text>
+                <View style={{flexDirection: 'row'}}>
+                    <Image source={work}/>
+                    <Text style={styles.text}>{user.company}</Text>
+                </View>
 
-            <View style={{flexDirection: 'row'}}>
-                <Image source={mail}/>
-                <Text style={styles.text}>{user.email}</Text>
-            </View>
+                <View style={{flexDirection: 'row'}}>
+                    <Image source={location}/>
+                    <Text style={styles.text}>{user.location}</Text>
+                </View>
 
-            <View style={{flexDirection: 'row'}}>
-                <Image source={link}/>
-                <Text style={styles.text}>{user.blog}</Text>
+                <View style={{flexDirection: 'row'}}>
+                    <Image source={mail}/>
+                    <Text style={styles.text}>{user.email}</Text>
+                </View>
+
+                <View style={{flexDirection: 'row'}}>
+                    <Image source={link}/>
+                    <Text style={styles.text}>{user.blog}</Text>
+                </View>
+                
             </View>
-            
-        </View>
-            
-        <View style={styles.buttonContainer}>
-            <TouchableOpacity 
-                style={styles.repositoriesButton}
-                title="Repositories"
-                onPress={() => {
-                    navigate('Repos', {login: user.username})}} 
-            >
-                <Text style={styles.buttonText}>Repositories</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.starsButton}
-                title="Stars"
-                onPress={() => {
-                    navigate('Stars', {login: user.username})}} 
-            >
-                <Text style={styles.buttonText}>Stars</Text>
-            </TouchableOpacity>
-        </View>
+                
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity 
+                    style={styles.repositoriesButton}
+                    title="Repositories"
+                    onPress={() => {
+                        navigate('Repos', {login: user.username})}} 
+                >
+                    <Text style={styles.buttonText}>Repositories</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.starsButton}
+                    title="Stars"
+                    onPress={() => {
+                        navigate('Stars', {login: user.username})}} 
+                >
+                    <Text style={styles.buttonText}>Stars</Text>
+                </TouchableOpacity>
+            </View>
 
         </View>
     )
@@ -105,11 +106,11 @@ const styles = StyleSheet.create({
     text:{
         paddingHorizontal: 5
     },
+
     buttonContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
     },
-
     repositoriesButton:{
         height: 37,
         width: 130,
@@ -136,7 +137,5 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#575c60',
         fontWeight: 'bold'
-
-
     }
 })
