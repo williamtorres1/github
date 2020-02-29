@@ -1,22 +1,35 @@
-import React, { useState } from 'react';
-import { Text, StyleSheet, Image, View, TextInput, TouchableOpacity } from 'react-native'
+import React, { useState, useEffect } from 'react';
+import { Text, StyleSheet, Image, View, TextInput, TouchableOpacity  } from 'react-native'
 import Axios from 'axios'
 import finder from '../assets/finder.png'
 
-export default function Search({ navigation: { navigate } }){
-    const [devs, setDevs] = useState('')
+import AsyncStorage from '@react-native-community/async-storage';
 
+export default function Search({ navigation: { navigate } }){
+    const [devs, setDevs] = useState('');
+    const [usersSearcheds, setUsersSearcheds] = useState([]);
+
+    useEffect(() => {
+        AsyncStorage.getItem('@github/recents')
+        .then(users => {
+            // console.log(JSON.parse(users));
+            setUsersSearcheds(JSON.parse(users));
+        })
+        .catch(error => {
+            console.log(error)
+        });
+    }, []);
     async function searchDevs(){
         const AxiosResponse = await Axios.get(`https://api.github.com/users/${devs}`)
-        const { 
+        const {
                 name = login,
                 login, 
                 avatar_url, 
-                id, 
-                company, 
-                blog, 
+                id,
+                company,
                 location, 
-                email, 
+                email,
+                blog,
                 bio,
                 repos_url,
                 public_repos,
@@ -38,16 +51,32 @@ export default function Search({ navigation: { navigate } }){
             starred_url: starred_url,
             numberRepos: public_repos
         }
-        navigate('Profile', {dev: sourceContent})        
+
+
+        const recents = JSON.parse(await AsyncStorage.getItem('@github/recents'));
+        console.log(recents);
+        if(recents){
+            recents.push(devs);
+            await AsyncStorage.removeItem('@github/recents');
+            await AsyncStorage.setItem('@github/recents', JSON.stringify(recents) );
+            await setUsersSearcheds(recents);
+        }else {
+            await AsyncStorage.removeItem('@github/recents');
+            await AsyncStorage.setItem('@github/recents', JSON.stringify([devs]) );
+            await setUsersSearcheds(devs);
+        }
+        navigate('Profile', {dev: sourceContent})
+                
     }
  
     return (
         <View style={{flex: 1}}>
+            
             <View style={styles.searchForm}>
                 <TextInput 
                     style={styles.searchInput}
                     placeholder="Procurar devs"
-                    placeholderTextColor="#999"
+                    placeholderTextColor="#616467"
                     autoCapitalize="none"
                     autoCorrect={false}
                     value={devs}
@@ -57,11 +86,14 @@ export default function Search({ navigation: { navigate } }){
                     <Image style={styles.searchButton} source={finder}/>
                 </TouchableOpacity>
             </View>
-            <View style={styles.usersSearcheds}>
 
+            <View style={styles.usersSearcheds}>
+                {usersSearcheds.map( (user, index) => (
+                    <Text key={index} style={styles.usersSearcheds}>{user}</Text>
+                ))}
             </View>
+        
         </View>
-            
     )
 }
 
