@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Text, StyleSheet, Image, View, TextInput, TouchableOpacity  } from 'react-native'
+import { Text, StyleSheet, Image, View, TextInput, TouchableOpacity } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 import Axios from 'axios'
-import finder from '../assets/finder.png'
 
-import AsyncStorage from '@react-native-community/async-storage';
+import finder from '../assets/finder.png'
 
 export default function Search({ navigation: { navigate } }){
     const [devs, setDevs] = useState('');
@@ -52,33 +52,34 @@ export default function Search({ navigation: { navigate } }){
             starred_url: starred_url,
             numberRepos: public_repos
         }
+        function userExist(element){
+            return element !== devs;
+          }
 
 
         const recents = JSON.parse(await AsyncStorage.getItem('@github/recents'));
         if(recents){
-            recents.push(devs);
-            await AsyncStorage.removeItem('@github/recents');
-            const userExists = AsyncStorage.getItem('@github/recents')
-                .then(users => {
-                    if (JSON.parse(users)){
-                        setUsersSearcheds(JSON.parse(users));
-                    }
-                })
-            if(!userExists){
+            if(recents.every(userExist)){
+                console.log(`O usuário ${devs} será armazenado.`)
+                recents.push(devs);
                 await AsyncStorage.setItem('@github/recents', JSON.stringify(recents) );
-                await setUsersSearcheds(recents);
+                setUsersSearcheds(recents);
             }
+            else{
+                console.log(`O usuário ${devs} já existe no banco de dados`)
+            }
+            
         }else {
             await AsyncStorage.removeItem('@github/recents');
             await AsyncStorage.setItem('@github/recents', JSON.stringify([devs]) );
-            await setUsersSearcheds([devs]);
+            setUsersSearcheds([devs]);
         }
+
         navigate('Profile', {dev: sourceContent})
                 
     }
- 
     return (
-        <View style={{flex: 1}}>
+        <View style={{flex: 1, backgroundColor: '#999'}}>
             
             <View style={styles.searchForm}>
                 <TextInput 
@@ -87,7 +88,7 @@ export default function Search({ navigation: { navigate } }){
                     placeholderTextColor="#616467"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    returnKeyType="go"
+                    returnKeyType="search"
                     onSubmitEditing={searchDevs}
                     value={devs}
                     onChangeText={setDevs}
@@ -97,10 +98,11 @@ export default function Search({ navigation: { navigate } }){
                 </TouchableOpacity>
             </View>
 
-            <View style={styles.usersSearcheds}>
+            <View style={styles.list}>
                 { usersSearcheds ? usersSearcheds.map( (user, index) => (
-                    <Text key={index} style={styles.usersSearcheds}>{user}</Text>
-                )): <Text>Sem recentes pesquisas</Text>}
+                    <Text key={index} style={styles.text} >{user}</Text>
+                )): console.log(`Sem recentes pesquisas`)}
+                
             </View>
         
         </View>
@@ -147,10 +149,16 @@ const styles = StyleSheet.create({
     searchButton: {
         resizeMode: 'center'
     },
-
-
-    usersSearcheds:{
-        paddingVertical: 75,
-        paddingHorizontal: 20        
+    list: {
+        top: 90,
+        paddingHorizontal: 20,
+        borderWidth: 1,
+        borderRadius: 5,
+        borderColor: '#DDD',
+    },
+    text: {
+        marginTop: 5,
+        marginBottom: 7,
+        color: '#FFF',
     }
 })
