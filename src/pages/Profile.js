@@ -20,26 +20,29 @@ export default function Profile({ navigation:{ navigate }, route }){
             </View>
 
             <View style={styles.infoContainer}>
-                <Text style={styles.bio}>{user.bio}</Text>
-                <View style={{flexDirection: 'row'}}>
+                { user.bio ? <Text style={styles.bio}>{user.bio}</Text>: <View />}
+                
+
+                { user.company ? <View style={{flexDirection: 'row'}}>
                     <Image source={work}/>
                     <Text style={styles.text}>{user.company}</Text>
-                </View>
+                </View> : <View />}
 
-                <View style={{flexDirection: 'row'}}>
+                { user.location ? <View style={{flexDirection: 'row'}}>
                     <Image source={location}/>
                     <Text style={styles.text}>{user.location}</Text>
-                </View>
+                </View> : <View />}
 
-                <View style={{flexDirection: 'row'}}>
+                { user.email ? <View style={{flexDirection: 'row'}}>
                     <Image source={mail}/>
                     <Text style={styles.text}>{user.email}</Text>
-                </View>
+                </View> : <View />}
+                
 
-                <View style={{flexDirection: 'row'}}>
+                { user.blog ? <View style={{flexDirection: 'row'}}>
                     <Image source={link}/>
                     <Text style={styles.text}>{user.blog}</Text>
-                </View>
+                </View> : <View />}
                 
             </View>
                 
