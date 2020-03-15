@@ -1,4 +1,4 @@
-## Change Name
+## Change AppName
 
 Go to: android/app/src/main/res/values/strings.xml
 
@@ -9,7 +9,7 @@ Edit your app name inside the  > <
         <string name="app_name">your_aplication_name</string>
     </resources>
 ```
-## Change Icon
+## Change AppIcon
 
 Go to: [Generate icons and splash](https://apetools.webprofusion.com/#/tools/imagegorilla)
 
@@ -22,7 +22,7 @@ On AndroidManifest.xml you'll change the content of this lines and leave like th
     android:roundIcon="@drawable/icon"
 ```
 
-## Change Splash
+## Change AppSplash
 
 Go to: android/app/src/main/res/values/styles.xml
 
