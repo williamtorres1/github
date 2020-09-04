@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Linking,
+} from 'react-native';
 
 import location from '../assets/location.png';
 import link from '../assets/link.png';
@@ -45,7 +52,12 @@ export default function Profile({navigation: {navigate}, route}) {
         {user.blog && (
           <View style={{flexDirection: 'row'}}>
             <Image source={link} />
-            <Text style={styles.text}>{user.blog}</Text>
+            <TouchableOpacity
+              onPress={() => {
+                Linking.openURL(user.blog);
+              }}>
+              <Text style={styles.text}>{user.blog}</Text>
+            </TouchableOpacity>
           </View>
         )}
 

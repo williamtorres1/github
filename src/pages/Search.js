@@ -103,13 +103,12 @@ export default function Search({navigation: {navigate}}) {
       </View>
 
       <View style={styles.list}>
-        {usersSearcheds
-          ? usersSearcheds.map((user, index) => (
-              <Text key={index} style={styles.text}>
-                {user}
-              </Text>
-            ))
-          : console.log('Sem recentes pesquisas')}
+        {usersSearcheds &&
+          usersSearcheds.map((user, index) => (
+            <Text key={index} style={styles.text}>
+              {user}
+            </Text>
+          ))}
       </View>
     </View>
   );

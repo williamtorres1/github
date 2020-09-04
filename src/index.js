@@ -1,8 +1,6 @@
-import React from 'react'
-import Routes from './src/routes'
+import React from 'react';
+import Routes from './routes';
 
-export default function App(){
-  return(
-    <Routes />
-  )
+export default function App() {
+  return <Routes />;
 }
