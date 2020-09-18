@@ -28,9 +28,7 @@ export default function Search({navigation: {navigate}}) {
       });
   }, []);
   async function searchDevs() {
-    const AxiosResponse = await Axios.get(
-      `https://api.github.com/users/${devs}`,
-    );
+    const {data} = await Axios.get(`https://api.github.com/users/${devs}`);
     const {
       name = login,
       login,
@@ -44,7 +42,7 @@ export default function Search({navigation: {navigate}}) {
       repos_url,
       public_repos,
       starred_url,
-    } = AxiosResponse.data;
+    } = data;
 
     const sourceContent = {
       avatar_url: avatar_url,
