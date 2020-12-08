@@ -1,6 +1,8 @@
 import React from 'react';
 import {View} from 'react-native';
 import OAuthManager from 'react-native-oauth';
+import {useNavigation} from '@react-navigation/native';
+
 import {ClientID, ClientSecret} from '../credentials/github.json';
 
 const config = {
@@ -12,7 +14,9 @@ const config = {
 
 const manager = new OAuthManager('OpenGit');
 
-export default function Login({navigation: {navigate}}) {
+export default function Login() {
+  const navigation = useNavigation();
+
   manager.configure(config);
   manager.addProvider({
     github: {
@@ -24,7 +28,7 @@ export default function Login({navigation: {navigate}}) {
   });
   manager
     .authorize('github')
-    .then(navigate('Search'))
+    .then(navigation.navigate('Search'))
     .catch(err => console.log('Your req return error:', err));
   return <View />;
 }
