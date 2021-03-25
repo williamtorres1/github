@@ -7,18 +7,21 @@ import {
   TouchableOpacity,
   Linking,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 import location from '../assets/location.png';
 import link from '../assets/link.png';
 import mail from '../assets/mail.png';
 import work from '../assets/work.png';
 
-export default function Profile({navigation: {navigate}, route}) {
-  const user = route.params.dev;
+export default function Profile({route}) {
+  const navigation = useNavigation();
+  const user = route.params;
+  console.log(user);
   return (
     <View style={{flex: 1, backgroundColor: '#fafafa'}}>
       <View style={styles.container}>
-        <Image style={styles.avatar} source={{uri: user.avatar_url}} />
+        <Image style={styles.avatar} source={{uri: user.avatar}} />
         <View style={{flexDirection: 'column'}}>
           <Text style={styles.name}>{user.name}</Text>
           <Text style={styles.username}>{user.username}</Text>
@@ -26,7 +29,7 @@ export default function Profile({navigation: {navigate}, route}) {
       </View>
 
       <View style={styles.infoContainer}>
-        {user.bio && <Text style={styles.bio}>{user.bio}</Text>}
+        {user.biography && <Text style={styles.bio}>{user.biography}</Text>}
 
         {user.company && (
           <View style={{flexDirection: 'row'}}>
@@ -66,7 +69,7 @@ export default function Profile({navigation: {navigate}, route}) {
             style={styles.repositoriesButton}
             title="Repositories"
             onPress={() => {
-              navigate('Repos', {login: user.username});
+              navigation.navigate('Repos', {login: user.username});
             }}>
             <Text style={styles.buttonText}>Repositories</Text>
           </TouchableOpacity>
@@ -74,7 +77,7 @@ export default function Profile({navigation: {navigate}, route}) {
             style={styles.starsButton}
             title="Stars"
             onPress={() => {
-              navigate('Stars', {login: user.username});
+              navigation.navigate('Stars', {login: user.username});
             }}>
             <Text style={styles.buttonText}>Stars</Text>
           </TouchableOpacity>

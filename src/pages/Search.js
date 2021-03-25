@@ -18,66 +18,44 @@ export default function Search() {
 
   const [dev, setDev] = useState('');
   const [usersSearcheds, setUsersSearcheds] = useState([]);
-  const [allUsers, setAllUsers] = useState([]);
 
   useEffect(() => {
     async function setUsersSearchedFunction() {
-      setUsersSearcheds(
-        JSON.parse(await AsyncStorage.getItem('@GitHub/users')),
-      );
+      const users = JSON.parse(await AsyncStorage.getItem('@GitHub/users'));
+      if (users) {
+        setUsersSearcheds(users);
+      }
     }
     setUsersSearchedFunction();
   }, []);
-
-  // useEffect(() => {
-  //   AsyncStorage.getItem('@github/recents')
-  //     .then(users => {
-  //       if (JSON.parse(users)) {
-  //         setUsersSearcheds(JSON.parse(users));
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // }, []);
   async function saveDev() {
-    const user = await handleSearchDev();
-    console.log(`>> Salvando ${user.name}.`);
-    setUsersSearcheds([...usersSearcheds, user]);
-    await AsyncStorage.setItem('@GitHub/users', JSON.stringify(usersSearcheds));
+    try {
+      const user = await handleSearchDev();
+      console.log(`>> Salvando ${user.name}.`);
+      if (usersSearcheds.length === 0) {
+        setUsersSearcheds([user]);
+      } else {
+        setUsersSearcheds([...usersSearcheds, user]);
+      }
+      await AsyncStorage.setItem(
+        '@GitHub/users',
+        JSON.stringify(usersSearcheds),
+      );
+      return user;
+    } catch (err) {
+      console.error(err);
+    }
   }
   async function verifyDevExist() {
     try {
-      if (usersSearcheds.every(element => element !== dev)) {
+      if (
+        usersSearcheds.length < 1 &&
+        usersSearcheds.every(element => element !== dev)
+      ) {
         console.log(`O dev ${dev} vai ser armazenado`);
-        await saveDev();
+        const user = await saveDev();
+        navigation.navigate('Profile', user);
       }
-
-      console.log(JSON.parse(await AsyncStorage.getItem('@GitHub/users')));
-
-      // setAllUsers([JSON.parse(await AsyncStorage.getItem('@GitHub/users'))]);
-      // await AsyncStorage.setItem(
-      //   '@GitHub/users',
-      //   JSON.stringify(await handleSearchDev()),
-      // );
-      // console.log(await AsyncStorage.getItem('@GitHub/users'));
-      // if (allUsers) {
-      //   console.log('>> Já existem usuários armazenados');
-      //   if (
-      //     allUsers.every(searchedDev => {
-      //       console.log('searchedDev', searchedDev);
-      //       return searchedDev.username === dev;
-      //     })
-      //   ) {
-      //     console.log(`>> O dev: ${dev} não foi armazenado ainda!`);
-      //     await saveDev();
-      //   } else {
-      //     console.log('>> Entrou no else de novo');
-      //   }
-      // } else {
-      //   console.log('>> Não há nenhum usuário salvo.');
-      //   await saveDev();
-      // }
     } catch (err) {
       console.error(err);
     }
@@ -97,28 +75,6 @@ export default function Search() {
       stars: `https://api.github.com/users/${dev}/starred`,
     };
     return user;
-
-    // function userExist(element) {
-    //   return element !== devs;
-    // }
-
-    // const recents = JSON.parse(await AsyncStorage.getItem('@github/recents'));
-    // if (recents) {
-    //   if (recents.every(userExist)) {
-    //     console.log(`O usuário ${devs} será armazenado.`);
-    //     recents.push(devs);
-    //     await AsyncStorage.setItem('@github/recents', JSON.stringify(recents));
-    //     setUsersSearcheds(recents);
-    //   } else {
-    //     console.log(`O usuário ${devs} já existe no banco de dados`);
-    //   }
-    // } else {
-    //   await AsyncStorage.removeItem('@github/recents');
-    //   await AsyncStorage.setItem('@github/recents', JSON.stringify([devs]));
-    //   setUsersSearcheds([devs]);
-    // }
-
-    // navigate('Profile', {dev: sourceContent});
   }
 
   return (
