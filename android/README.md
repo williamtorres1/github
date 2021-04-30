@@ -28,7 +28,7 @@ Go to: android/app/src/main/res/values/styles.xml
 
 Now, put the follow lines below style tag:
 
-```
+```java
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@drawable/screen</item>
@@ -38,6 +38,6 @@ Now, put the follow lines below style tag:
 
 On AndroidManifest.xml you'll put the follow line above activity tag
 
-```
+```java
     android:theme="@style/SplashTheme"
 ```
