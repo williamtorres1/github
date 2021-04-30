@@ -7,17 +7,20 @@ import {
   TouchableOpacity,
   Linking,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+
+import { User } from '../libs/User';
 
 import location from '../assets/location.png';
 import link from '../assets/link.png';
 import mail from '../assets/mail.png';
 import work from '../assets/work.png';
 
-export default function Profile({ route }) {
+export const Profile: React.FC = () => {
   const navigation = useNavigation();
-  const user = route.params;
-  console.log(user);
+  const route = useRoute();
+  const user = route.params as User;
+
   return (
     <View style={{ flex: 1, backgroundColor: '#fafafa' }}>
       <View style={styles.container}>
@@ -68,7 +71,6 @@ export default function Profile({ route }) {
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.repositoriesButton}
-            title="Repositories"
             onPress={() => {
               navigation.navigate('Repos', { login: user.username });
             }}
@@ -77,7 +79,6 @@ export default function Profile({ route }) {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.starsButton}
-            title="Stars"
             onPress={() => {
               navigation.navigate('Stars', { login: user.username });
             }}
@@ -88,7 +89,7 @@ export default function Profile({ route }) {
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

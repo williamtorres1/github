@@ -9,59 +9,54 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import api from '../services/api';
 
+import api from '../services/api';
 import finder from '../assets/finder.png';
 
-export default function Search() {
+interface GithubResponse {
+  login: string;
+  id: string;
+  node_id: string;
+  avatar_url: string;
+  gravatar_id: string;
+  url: string;
+  html_url: string;
+  followers_url: string;
+  following_url: string;
+  gists_url: string;
+  starred_url: string;
+  subscriptions_url: string;
+  organizations_url: string;
+  repos_url: string;
+  events_url: string;
+  received_events_url: string;
+  type: string;
+  site_admin: string;
+  name: string;
+  company: string | null;
+  blog: string;
+  location: string;
+  email: string | null;
+  hireable: string;
+  bio: string;
+  twitter_username: string;
+  public_repos: number;
+  public_gists: number;
+  followers: number;
+  following: number;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export const Search: React.FC = () => {
   const navigation = useNavigation();
 
   const [dev, setDev] = useState('');
-  const [usersSearcheds, setUsersSearcheds] = useState([]);
-
   useEffect(() => {
-    async function setUsersSearchedFunction() {
-      const users = JSON.parse(await AsyncStorage.getItem('@GitHub/users'));
-      if (users) {
-        setUsersSearcheds(users);
-      }
-    }
-    setUsersSearchedFunction();
+    // Renderizar devs recem pesquisados
   }, []);
-  async function saveDev() {
-    try {
-      const user = await handleSearchDev();
-      console.log(`>> Salvando ${user.name}.`);
-      if (usersSearcheds.length === 0) {
-        setUsersSearcheds([user]);
-      } else {
-        setUsersSearcheds([...usersSearcheds, user]);
-      }
-      await AsyncStorage.setItem(
-        '@GitHub/users',
-        JSON.stringify(usersSearcheds),
-      );
-      return user;
-    } catch (err) {
-      console.error(err);
-    }
-  }
-  async function verifyDevExist() {
-    try {
-      if (
-        usersSearcheds.length < 1 &&
-        usersSearcheds.every(element => element !== dev)
-      ) {
-        console.log(`O dev ${dev} vai ser armazenado`);
-        const user = await saveDev();
-        navigation.navigate('Profile', user);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  }
-  async function handleSearchDev() {
-    const { data } = await api.get(dev);
+  async function getDevDataFromGithubApi(): Promise<void> {
+    const { data } = await api.get<GithubResponse>(dev);
     const user = {
       id: data.id,
       name: data.name,
@@ -70,13 +65,21 @@ export default function Search() {
       company: data.company,
       blog: data.blog,
       location: data.location,
+      email: data.email,
       biography: data.bio,
       repositories: data.repos_url,
-      stars: `https://api.github.com/users/${dev}/starred`,
+      stars: data.starred_url,
     };
-    return user;
+    navigation.navigate('Profile', user);
   }
-
+  async function verifyDevExist(): Promise<void> {
+    // Verificar no AsyncStorage se o usuário pesquisado já tá salvo
+    const allDevs = await AsyncStorage.getItem('@Github/users');
+    if (!allDevs) {
+      await AsyncStorage.setItem('@Github/users', dev);
+      await getDevDataFromGithubApi();
+    }
+  }
   return (
     <View style={{ flex: 1, backgroundColor: '#999' }}>
       <View style={styles.searchForm}>
@@ -100,28 +103,10 @@ export default function Search() {
         <TouchableOpacity onPress={() => AsyncStorage.clear()}>
           <Text>Limpar</Text>
         </TouchableOpacity>
-        {/* {usersSearcheds &&
-          usersSearcheds.map((user, index) => (
-            <Text key={index} style={styles.text}>
-              {user}
-            </Text>
-          ))} */}
-        {/* <FlatList
-          data={usersSearcheds}
-          keyExtractor={({item: user}, index) => index}
-          renderItem={({item: user}, index) => {
-            console.log(user);
-            return (
-              <Text key={index} style={styles.list}>
-                {user}
-              </Text>
-            );
-          }}
-        /> */}
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   searchForm: {

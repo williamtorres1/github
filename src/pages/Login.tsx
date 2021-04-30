@@ -5,17 +5,17 @@ import { useNavigation } from '@react-navigation/native';
 
 import { ClientID, ClientSecret } from '../credentials/github.json';
 
-const config = {
-  github: {
-    client_id: ClientID,
-    client_secret: ClientSecret,
-  },
-};
-
-const manager = new OAuthManager('OpenGit');
-
-export default function Login() {
+export const Login: React.FC = () => {
   const navigation = useNavigation();
+
+  const config = {
+    github: {
+      client_id: ClientID,
+      client_secret: ClientSecret,
+    },
+  };
+
+  const manager = new OAuthManager('OpenGit');
 
   manager.configure(config);
   manager.addProvider({
@@ -34,4 +34,4 @@ export default function Login() {
     })
     .catch(err => console.log('Your req return error:', err));
   return <View />;
-}
+};
