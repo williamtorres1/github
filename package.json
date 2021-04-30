@@ -15,7 +15,7 @@
     "@react-navigation/core": "^5.15.3",
     "@react-navigation/drawer": "^5.1.0",
     "@react-navigation/native": "^5.0.8",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "react": "16.9.0",
     "react-native": "0.61.5",
     "react-native-gesture-handler": "^1.6.0",
