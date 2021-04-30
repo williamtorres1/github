@@ -1,7 +1,9 @@
 import React from 'react';
+import { useRoute } from '@react-navigation/core';
 import { WebView } from 'react-native-webview';
 
-export default function Stars({ navigation, route }) {
+export const Stars: React.FC = () => {
+  const route = useRoute();
   const github_username = route.params.login;
   return (
     <WebView
@@ -9,4 +11,4 @@ export default function Stars({ navigation, route }) {
       source={{ uri: `https://github.com/${github_username}?tab=stars` }}
     />
   );
-}
+};

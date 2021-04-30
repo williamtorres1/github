@@ -2,15 +2,15 @@ import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 
-import Login from './pages/Login';
-import Search from './pages/Search';
-import Profile from './pages/Profile';
-import Repos from './pages/Repos';
-import Stars from './pages/Stars';
+import { Login } from './pages/Login';
+import { Search } from './pages/Search';
+import { Profile } from './pages/Profile';
+import { Repos } from './pages/Repos';
+import { Stars } from './pages/Stars';
 
 const Drawer = createDrawerNavigator();
 
-export default function Routes() {
+export const Routes: React.FC = () => {
   return (
     <>
       <NavigationContainer>
@@ -24,4 +24,4 @@ export default function Routes() {
       </NavigationContainer>
     </>
   );
-}
+};

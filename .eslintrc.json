@@ -32,8 +32,7 @@
             1,
             {
             "extensions": [
-                ".tsx",
-                ".js"
+                ".tsx"
             ]
             }
         ],
@@ -49,7 +48,9 @@
             }
           ],
         "prettier/prettier": "error",
-        "quotes": ["error","single"]
+        "quotes": ["error","single"],
+        "import/prefer-default-export": "off",
+        "camelcase": "off"
     },
     "settings": {
         "import/resolver": {
