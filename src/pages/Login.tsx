@@ -1,34 +1,30 @@
 import React from 'react';
 import { View } from 'react-native';
-import OAuthManager from 'react-native-oauth';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { authorize } from 'react-native-app-auth';
 
-import { ClientID, ClientSecret } from '../credentials/github.json';
+import { config } from '../services/OAuth';
 
 export const Login: React.FC = () => {
   const navigation = useNavigation();
 
-  const config = {
-    github: {
-      client_id: ClientID,
-      client_secret: ClientSecret,
-    },
-  };
-
-  const manager = new OAuthManager('OpenGit');
-
-  manager.configure(config);
-  manager.addProvider({
-    github: {
-      auth_version: '2.0',
-      authorize_url: 'https://github.com/login/oauth/authorize',
-      access_token_url: 'https://github.com/login/oauth/access_token',
-      callback_url: ({ github }) => `${github}://oauth`,
-    },
+  useFocusEffect(() => {
+    async function getAuthorizationFromGithubOAuth() {
+      try {
+        const authState = await authorize(config);
+        await AsyncStorage.setItem(
+          '@opengit:access_token',
+          JSON.stringify(authState),
+        );
+        navigation.navigate('Search', authState);
+        console.log({ authState });
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    getAuthorizationFromGithubOAuth();
   });
-  manager
-    .authorize('github')
-    .then(navigation.navigate('Search'))
-    .catch(err => console.log('Your req return error:', err));
-  return <View />;
+
+  return <View style={{ flex: 1 }} />;
 };
