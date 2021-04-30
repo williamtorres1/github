@@ -28,10 +28,7 @@ export const Login: React.FC = () => {
   });
   manager
     .authorize('github')
-    .then(response => {
-      console.log(response);
-      navigation.navigate('Search');
-    })
+    .then(navigation.navigate('Search'))
     .catch(err => console.log('Your req return error:', err));
   return <View />;
 };
