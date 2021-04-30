@@ -1,9 +1,9 @@
-import React from 'react';
-import {View} from 'react-native';
-import OAuthManager from 'react-native-oauth';
-import {useNavigation} from '@react-navigation/native';
+import React from "react";
+import { View } from "react-native";
+import OAuthManager from "react-native-oauth";
+import { useNavigation } from "@react-navigation/native";
 
-import {ClientID, ClientSecret} from '../credentials/github.json';
+import { ClientID, ClientSecret } from "../credentials/github.json";
 
 const config = {
   github: {
@@ -12,7 +12,7 @@ const config = {
   },
 };
 
-const manager = new OAuthManager('OpenGit');
+const manager = new OAuthManager("OpenGit");
 
 export default function Login() {
   const navigation = useNavigation();
@@ -20,15 +20,15 @@ export default function Login() {
   manager.configure(config);
   manager.addProvider({
     github: {
-      auth_version: '2.0',
-      authorize_url: 'https://github.com/login/oauth/authorize',
-      access_token_url: 'https://github.com/login/oauth/access_token',
-      callback_url: ({github}) => `${github}://oauth`,
+      auth_version: "2.0",
+      authorize_url: "https://github.com/login/oauth/authorize",
+      access_token_url: "https://github.com/login/oauth/access_token",
+      callback_url: ({ github }) => `${github}://oauth`,
     },
   });
   manager
-    .authorize('github')
-    .then(navigation.navigate('Search'))
-    .catch(err => console.log('Your req return error:', err));
+    .authorize("github")
+    .then(navigation.navigate("Search"))
+    .catch((err) => console.log("Your req return error:", err));
   return <View />;
 }

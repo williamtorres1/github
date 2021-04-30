@@ -1,12 +1,12 @@
-import React from 'react';
-import {createDrawerNavigator} from '@react-navigation/drawer';
-import {NavigationContainer} from '@react-navigation/native';
+import React from "react";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { NavigationContainer } from "@react-navigation/native";
 
-import Login from './pages/Login';
-import Search from './pages/Search';
-import Profile from './pages/Profile';
-import Repos from './pages/Repos';
-import Stars from './pages/Stars';
+import Login from "./pages/Login";
+import Search from "./pages/Search";
+import Profile from "./pages/Profile";
+import Repos from "./pages/Repos";
+import Stars from "./pages/Stars";
 
 const Drawer = createDrawerNavigator();
 
