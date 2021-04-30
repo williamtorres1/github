@@ -32,14 +32,13 @@
             1,
             {
             "extensions": [
-                ".tsx"
+                ".tsx",
+                ".js"
             ]
             }
         ],
         "no-use-before-define": "off",
-        "@typescript-eslint/no-use-before-define": [
-            "error"
-        ],
+        "@typescript-eslint/no-use-before-define": "off",
         "react/react-in-jsx-scope": "off",
         "import/extensions": [
             "error",
@@ -49,7 +48,8 @@
               "tsx": "never"
             }
           ],
-        "prettier/prettier": "error"
+        "prettier/prettier": "error",
+        "quotes": ["error","single"]
     },
     "settings": {
         "import/resolver": {

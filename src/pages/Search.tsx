@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   StyleSheet,
@@ -6,22 +6,22 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-} from "react-native";
-import AsyncStorage from "@react-native-community/async-storage";
-import { useNavigation } from "@react-navigation/native";
-import api from "../services/api";
+} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import api from '../services/api';
 
-import finder from "../assets/finder.png";
+import finder from '../assets/finder.png';
 
 export default function Search() {
   const navigation = useNavigation();
 
-  const [dev, setDev] = useState("");
+  const [dev, setDev] = useState('');
   const [usersSearcheds, setUsersSearcheds] = useState([]);
 
   useEffect(() => {
     async function setUsersSearchedFunction() {
-      const users = JSON.parse(await AsyncStorage.getItem("@GitHub/users"));
+      const users = JSON.parse(await AsyncStorage.getItem('@GitHub/users'));
       if (users) {
         setUsersSearcheds(users);
       }
@@ -38,8 +38,8 @@ export default function Search() {
         setUsersSearcheds([...usersSearcheds, user]);
       }
       await AsyncStorage.setItem(
-        "@GitHub/users",
-        JSON.stringify(usersSearcheds)
+        '@GitHub/users',
+        JSON.stringify(usersSearcheds),
       );
       return user;
     } catch (err) {
@@ -50,11 +50,11 @@ export default function Search() {
     try {
       if (
         usersSearcheds.length < 1 &&
-        usersSearcheds.every((element) => element !== dev)
+        usersSearcheds.every(element => element !== dev)
       ) {
         console.log(`O dev ${dev} vai ser armazenado`);
         const user = await saveDev();
-        navigation.navigate("Profile", user);
+        navigation.navigate('Profile', user);
       }
     } catch (err) {
       console.error(err);
@@ -78,7 +78,7 @@ export default function Search() {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#999" }}>
+    <View style={{ flex: 1, backgroundColor: '#999' }}>
       <View style={styles.searchForm}>
         <TextInput
           style={styles.searchInput}
@@ -126,22 +126,22 @@ export default function Search() {
 const styles = StyleSheet.create({
   searchForm: {
     flex: 1,
-    position: "absolute",
+    position: 'absolute',
     top: 5,
     left: 20,
     right: 20,
     zIndex: 5,
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   searchInput: {
     flex: 1,
     height: 50,
-    backgroundColor: "#fafafa",
-    color: "#333",
+    backgroundColor: '#fafafa',
+    color: '#333',
     borderRadius: 25,
     paddingHorizontal: 20,
     fontSize: 16,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOpacity: 0.2,
     shadowOffset: {
       width: 4,
@@ -153,26 +153,26 @@ const styles = StyleSheet.create({
   loadButton: {
     width: 50,
     height: 50,
-    backgroundColor: "#fafafa",
+    backgroundColor: '#fafafa',
     borderRadius: 25,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     marginLeft: 15,
     marginTop: 10,
   },
   searchButton: {
-    resizeMode: "center",
+    resizeMode: 'center',
   },
   list: {
     top: 90,
     paddingHorizontal: 20,
     borderWidth: 1,
     borderRadius: 5,
-    borderColor: "#DDD",
+    borderColor: '#DDD',
   },
   text: {
     marginTop: 5,
     marginBottom: 7,
-    color: "#FFF",
+    color: '#FFF',
   },
 });
