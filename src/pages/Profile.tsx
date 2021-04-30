@@ -7,22 +7,22 @@ import {
   TouchableOpacity,
   Linking,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 import location from '../assets/location.png';
 import link from '../assets/link.png';
 import mail from '../assets/mail.png';
 import work from '../assets/work.png';
 
-export default function Profile({route}) {
+export default function Profile({ route }) {
   const navigation = useNavigation();
   const user = route.params;
   console.log(user);
   return (
-    <View style={{flex: 1, backgroundColor: '#fafafa'}}>
+    <View style={{ flex: 1, backgroundColor: '#fafafa' }}>
       <View style={styles.container}>
-        <Image style={styles.avatar} source={{uri: user.avatar}} />
-        <View style={{flexDirection: 'column'}}>
+        <Image style={styles.avatar} source={{ uri: user.avatar }} />
+        <View style={{ flexDirection: 'column' }}>
           <Text style={styles.name}>{user.name}</Text>
           <Text style={styles.username}>{user.username}</Text>
         </View>
@@ -32,33 +32,34 @@ export default function Profile({route}) {
         {user.biography && <Text style={styles.bio}>{user.biography}</Text>}
 
         {user.company && (
-          <View style={{flexDirection: 'row'}}>
+          <View style={{ flexDirection: 'row' }}>
             <Image source={work} />
             <Text style={styles.text}>{user.company}</Text>
           </View>
         )}
 
         {user.location && (
-          <View style={{flexDirection: 'row'}}>
+          <View style={{ flexDirection: 'row' }}>
             <Image source={location} />
             <Text style={styles.text}>{user.location}</Text>
           </View>
         )}
 
         {user.email && (
-          <View style={{flexDirection: 'row'}}>
+          <View style={{ flexDirection: 'row' }}>
             <Image source={mail} />
             <Text style={styles.text}>{user.email}</Text>
           </View>
         )}
 
         {user.blog && (
-          <View style={{flexDirection: 'row'}}>
+          <View style={{ flexDirection: 'row' }}>
             <Image source={link} />
             <TouchableOpacity
               onPress={() => {
                 Linking.openURL(user.blog);
-              }}>
+              }}
+            >
               <Text style={styles.text}>{user.blog}</Text>
             </TouchableOpacity>
           </View>
@@ -69,16 +70,18 @@ export default function Profile({route}) {
             style={styles.repositoriesButton}
             title="Repositories"
             onPress={() => {
-              navigation.navigate('Repos', {login: user.username});
-            }}>
+              navigation.navigate('Repos', { login: user.username });
+            }}
+          >
             <Text style={styles.buttonText}>Repositories</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.starsButton}
             title="Stars"
             onPress={() => {
-              navigation.navigate('Stars', {login: user.username});
-            }}>
+              navigation.navigate('Stars', { login: user.username });
+            }}
+          >
             <Text style={styles.buttonText}>Stars</Text>
           </TouchableOpacity>
         </View>

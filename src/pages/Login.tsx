@@ -1,9 +1,9 @@
 import React from 'react';
-import {View} from 'react-native';
+import { View } from 'react-native';
 import OAuthManager from 'react-native-oauth';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
-import {ClientID, ClientSecret} from '../credentials/github.json';
+import { ClientID, ClientSecret } from '../credentials/github.json';
 
 const config = {
   github: {
@@ -23,12 +23,15 @@ export default function Login() {
       auth_version: '2.0',
       authorize_url: 'https://github.com/login/oauth/authorize',
       access_token_url: 'https://github.com/login/oauth/access_token',
-      callback_url: ({github}) => `${github}://oauth`,
+      callback_url: ({ github }) => `${github}://oauth`,
     },
   });
   manager
     .authorize('github')
-    .then(navigation.navigate('Search'))
+    .then(response => {
+      console.log(response);
+      navigation.navigate('Search');
+    })
     .catch(err => console.log('Your req return error:', err));
   return <View />;
 }

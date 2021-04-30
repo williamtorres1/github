@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   StyleSheet,
@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import api from '../services/api';
 
 import finder from '../assets/finder.png';
@@ -61,7 +61,7 @@ export default function Search() {
     }
   }
   async function handleSearchDev() {
-    const {data} = await api.get(dev);
+    const { data } = await api.get(dev);
     const user = {
       id: data.id,
       name: data.name,
@@ -78,7 +78,7 @@ export default function Search() {
   }
 
   return (
-    <View style={{flex: 1, backgroundColor: '#999'}}>
+    <View style={{ flex: 1, backgroundColor: '#999' }}>
       <View style={styles.searchForm}>
         <TextInput
           style={styles.searchInput}
