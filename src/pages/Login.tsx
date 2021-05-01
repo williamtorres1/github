@@ -1,30 +1,31 @@
 import React from 'react';
-import { View } from 'react-native';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { authorize } from 'react-native-app-auth';
-
-import { config } from '../services/OAuth';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useAuth } from '../hooks';
 
 export const Login: React.FC = () => {
-  const navigation = useNavigation();
+  const { signIn } = useAuth();
 
-  useFocusEffect(() => {
-    async function getAuthorizationFromGithubOAuth() {
-      try {
-        const authState = await authorize(config);
-        await AsyncStorage.setItem(
-          '@opengit:access_token',
-          JSON.stringify(authState),
-        );
-        navigation.navigate('Search', authState);
-        console.log({ authState });
-      } catch (err) {
-        console.error(err);
-      }
-    }
-    getAuthorizationFromGithubOAuth();
-  });
+  function handleSignIn() {
+    signIn();
+  }
 
-  return <View style={{ flex: 1 }} />;
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Seja muito bem vindo!</Text>
+      <TouchableOpacity style={styles.button} onPress={handleSignIn}>
+        <Text style={styles.buttonText}>Dê permissão com o GitHub!</Text>
+      </TouchableOpacity>
+    </View>
+  );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  title: {},
+  button: {},
+  buttonText: {},
+});
