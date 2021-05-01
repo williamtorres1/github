@@ -4,7 +4,6 @@ import { WebView } from 'react-native-webview';
 
 export const Repos: React.FC = () => {
   const route = useRoute();
-  console.log(route.params);
   const github_username = route.params.login;
   return (
     <WebView

@@ -4,8 +4,11 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
+    "android:clean": "cd android && ./gradlew clean; cd ..; yarn android; yarn start --reset-cache",
     "ios": "react-native run-ios",
+    "ios:clean": "cd ios && xcodebuild clean; cd ..; yarn ios; yarn start --reset-cache",
     "start": "react-native start",
+    "clean": "yarn android:clean && yarn ios:clean",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "postinstall": "patch-package"
@@ -15,6 +18,7 @@
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/drawer": "^5.12.5",
     "@react-navigation/native": "^5.9.4",
+    "@react-navigation/stack": "^5.14.4",
     "axios": "^0.21.1",
     "patch-package": "^6.4.7",
     "postinstall-postinstall": "^2.1.0",
@@ -23,7 +27,7 @@
     "react-native-app-auth": "^6.2.0",
     "react-native-dotenv": "^2.5.5",
     "react-native-gesture-handler": "^1.10.3",
-    "react-native-reanimated": "^2.1.0",
+    "react-native-reanimated": "^1.13.1",
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^3.1.1",
     "react-native-webview": "^11.4.3"
