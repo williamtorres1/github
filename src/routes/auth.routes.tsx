@@ -5,7 +5,7 @@ import { Login } from '../pages/Login';
 const { Navigator, Screen } = createStackNavigator();
 
 export const AuthRoutes: React.FC = () => (
-  <Navigator>
+  <Navigator screenOptions={{ headerShown: false }}>
     <Screen name="Login" component={Login} />
   </Navigator>
 );

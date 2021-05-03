@@ -8,22 +8,26 @@ import {
   Linking,
 } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Feather from 'react-native-vector-icons/Feather';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import { User } from '../libs/User';
 
-import location from '../assets/location.png';
-import link from '../assets/link.png';
-import mail from '../assets/mail.png';
-import work from '../assets/work.png';
+interface Params {
+  user: User;
+}
 
 export const Profile: React.FC = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const user = route.params as User;
+
+  const { user } = route.params as Params;
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#fafafa' }}>
-      <View style={styles.container}>
+    <View style={styles.container}>
+      <View style={styles.firstContainer}>
         <Image style={styles.avatar} source={{ uri: user.avatar }} />
         <View style={{ flexDirection: 'column' }}>
           <Text style={styles.name}>{user.name}</Text>
@@ -36,28 +40,28 @@ export const Profile: React.FC = () => {
 
         {user.company && (
           <View style={{ flexDirection: 'row' }}>
-            <Image source={work} />
+            <MaterialIcons name="work" size={30} color="#000" />
             <Text style={styles.text}>{user.company}</Text>
           </View>
         )}
 
         {user.location && (
           <View style={{ flexDirection: 'row' }}>
-            <Image source={location} />
+            <MaterialIcons name="location-on" size={30} color="#E55043" />
             <Text style={styles.text}>{user.location}</Text>
           </View>
         )}
 
         {user.email && (
           <View style={{ flexDirection: 'row' }}>
-            <Image source={mail} />
+            <Ionicons name="mail" size={30} color="#000" />
             <Text style={styles.text}>{user.email}</Text>
           </View>
         )}
 
         {user.blog && (
           <View style={{ flexDirection: 'row' }}>
-            <Image source={link} />
+            <Feather name="link" size={30} color="#000" />
             <TouchableOpacity
               onPress={() => {
                 Linking.openURL(user.blog);
@@ -67,25 +71,27 @@ export const Profile: React.FC = () => {
             </TouchableOpacity>
           </View>
         )}
+      </View>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={styles.repositoriesButton}
+          onPress={() => {
+            navigation.navigate('Repos', { login: user.username });
+          }}
+        >
+          <FontAwesome name="code-fork" size={30} color="#28a745" />
+          <Text style={styles.buttonText}>Repositories</Text>
+        </TouchableOpacity>
 
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.repositoriesButton}
-            onPress={() => {
-              navigation.navigate('Repos', { login: user.username });
-            }}
-          >
-            <Text style={styles.buttonText}>Repositories</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.starsButton}
-            onPress={() => {
-              navigation.navigate('Stars', { login: user.username });
-            }}
-          >
-            <Text style={styles.buttonText}>Stars</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          style={styles.repositoriesButton}
+          onPress={() => {
+            navigation.navigate('Stars', { login: user.username });
+          }}
+        >
+          <FontAwesome name="star" size={30} color="#1e2327" />
+          <Text style={styles.buttonText}>Stars</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -93,6 +99,12 @@ export const Profile: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    backgroundColor: '#fefefe',
+    justifyContent: 'space-between',
+    paddingVertical: 20,
+  },
+  firstContainer: {
     flexDirection: 'row',
     backgroundColor: '#fefefe',
     padding: 20,
@@ -123,13 +135,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#DDD',
     padding: 20,
-    marginBottom: 20,
+    marginBottom: 40,
   },
   bio: {
     marginBottom: 10,
   },
   text: {
     paddingHorizontal: 5,
+    fontSize: 20,
+    lineHeight: 35,
   },
 
   buttonContainer: {
@@ -138,29 +152,20 @@ const styles = StyleSheet.create({
   },
   repositoriesButton: {
     height: 37,
-    width: 130,
+    width: '45%',
     borderRadius: 5,
     borderWidth: 1,
     borderColor: '#CCCED0',
     backgroundColor: '#f2f5f7',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     marginRight: 10,
-  },
-  starsButton: {
-    height: 37,
-    width: 70,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: '#CCCED0',
-    backgroundColor: '#f2f5f7',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 10,
+    flexDirection: 'row',
   },
   buttonText: {
-    fontSize: 16,
+    fontSize: 18,
     color: '#575c60',
     fontWeight: 'bold',
+    marginLeft: 20,
   },
 });
