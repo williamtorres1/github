@@ -1,10 +1,6 @@
 # GitHub
 Aplicativo para visualizar seu perfil no GitHub e realizar funcionalidades básicas
 
-## Designer
-Icons made by [Dave Gandy](flaticon.com/authors/dave-gandy) from [Flaticon](flaticon.com) and edited by [William Torres](github.com/williamtorres1)
-
-
 ## Credentials format
 
 ### OpenGit
