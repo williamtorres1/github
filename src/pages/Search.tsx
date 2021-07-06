@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import React, { useEffect, useState } from 'react';
 import {
   Text,
   StyleSheet,
   View,
   TextInput,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
 
 import api from '../services/api';
-import { useAuth } from '../hooks';
+// import { useAuth } from '../hooks';
 
 interface GithubResponse {
   login: string;
@@ -81,14 +81,20 @@ interface User {
 export const Search: React.FC = () => {
   const navigation = useNavigation();
 
-  const { signOut } = useAuth();
+  // const { signOut } = useAuth();
 
-  const [alreadySearch, setAlreadySearch] = useState(true);
+  const [alreadySearch, setAlreadySearch] = useState(false);
   const [developer, setDeveloper] = useState('');
   const [allDevelopers, setAllDevelopers] = useState<User[]>([]);
 
+  useEffect(() => {
+    fetchAsyncStorageData().then(response => {
+      setAlreadySearch(true);
+      setAllDevelopers(response!);
+    });
+  }, []);
+
   async function fetchGithubDeveloperData(): Promise<User | void> {
-    console.log('Buscando dados na api');
     try {
       const { data } = await api.get<GithubResponse>(String(developer));
 
@@ -111,27 +117,22 @@ export const Search: React.FC = () => {
 
       return user;
     } catch (err) {
-      console.log('Houve um erro: ', err);
-      return Alert.alert('Dev n existe');
+      throw new Error(err);
     }
   }
 
   async function fetchAsyncStorageData(): Promise<User[] | null> {
-    console.log('Verificando dados no AsyncStorage');
     const AsyncStorageData = await AsyncStorage.getItem('@opengit:users');
 
     if (!AsyncStorageData) {
       console.log('Não tem nada salvo no AsyncStorage');
       return null;
     }
-    console.log('Já tem algum usuário salvo no Async Storage');
     const AsyncStorageDataParsed = JSON.parse(AsyncStorageData);
     return AsyncStorageDataParsed;
   }
 
   async function saveDeveloperDataInAsyncStorage(): Promise<void> {
-    console.log('Salvando novos devs no Async Storage');
-    console.log('Transformando em strings');
     const allDevelopersStringified = JSON.stringify(allDevelopers);
     await AsyncStorage.setItem('@opengit:users', allDevelopersStringified);
   }
@@ -153,36 +154,29 @@ export const Search: React.FC = () => {
   }
 
   async function searchDeveloper() {
-    console.log(`Pesquisando pelo dev: ${developer}`);
     const responseAsyncStorageData = await fetchAsyncStorageData();
 
-    const developerData = await fetchGithubDeveloperData();
-
     if (!responseAsyncStorageData) {
-      console.log('Não tem nada salvo no banco');
+      const developerData = await fetchGithubDeveloperData();
       if (developerData) {
-        console.log('Alterando o state allDevelopers com: ', [developerData]);
-        setAllDevelopers([developerData]);
+        setAllDevelopers(Array(developerData));
         await saveDeveloperDataInAsyncStorage();
-        console.log('>> Navegando para próxima tela');
         navigation.navigate('Profile', { user: developerData });
       }
     }
 
     const developerAlreadySaved = await verifyDeveloperAlreadySaved(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       responseAsyncStorageData!,
     );
 
     if (!developerAlreadySaved) {
+      const developerData = await fetchGithubDeveloperData();
       if (developerData) {
         setAllDevelopers([...allDevelopers, developerData]);
         await saveDeveloperDataInAsyncStorage();
         navigation.navigate('Profile', { user: developerData });
       }
     }
-
-    navigation.navigate('Profile', { user: developerAlreadySaved });
   }
 
   // function handleSignOut() {
