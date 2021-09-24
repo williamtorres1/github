@@ -6,6 +6,7 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
@@ -83,67 +84,82 @@ export const Search: React.FC = () => {
 
   // const { signOut } = useAuth();
 
-  const [alreadySearch, setAlreadySearch] = useState(false);
+  const [alreadySearch, setAlreadySearch] = useState(true);
   const [developer, setDeveloper] = useState('');
   const [allDevelopers, setAllDevelopers] = useState<User[]>([]);
 
-  useEffect(() => {
-    fetchAsyncStorageData().then(response => {
-      setAlreadySearch(true);
-      setAllDevelopers(response!);
-    });
-  }, []);
+  // useEffect(() => {
+  //   fetchAsyncStorageData().then(response => {
+  //     // if (response) {
+  //     //   setAlreadySearch(true);
+  //     //   setAllDevelopers(response);
+  //     // }
+  //   });
+  // }, []);
 
   async function fetchGithubDeveloperData(): Promise<User | void> {
     try {
+      console.log('>> Buscando dados no github, usuário: ', developer);
       const { data } = await api.get<GithubResponse>(String(developer));
 
       const user = {
-        id: Number(data.id),
-        username: String(data.login),
-        name: String(data.name),
-        avatar: String(data.avatar_url),
-        company: String(data.company),
-        blog: String(data.blog),
-        location: String(data.location),
-        email: String(data.email),
-        biography: String(data.bio),
-        twitter: String(data.twitter_username),
-        repositories: String(data.repos_url),
-        public_repositories_number: Number(data.public_repos),
-        private_repositories_number: Number(data.total_private_repos),
-        stars: String(data.starred_url),
+        id: data.id,
+        username: data.login,
+        name: data.name,
+        avatar: data.avatar_url,
+        company: data.company,
+        blog: data.blog,
+        location: data.location,
+        email: data.email,
+        biography: data.bio,
+        twitter: data.twitter_username,
+        repositories: data.repos_url,
+        public_repositories_number: data.public_repos,
+        private_repositories_number: data.total_private_repos,
+        stars: data.starred_url,
       };
 
       return user;
     } catch (err) {
-      throw new Error(err);
+      Alert.alert(
+        'Algo deu errado, ao que tudo indica este usuário não existe',
+      );
+      throw new Error(String(err));
     }
   }
 
   async function fetchAsyncStorageData(): Promise<User[] | null> {
+    // eslint-disable-next-line prettier/prettier
+    console.log('>> Buscando dados no Async Storage, chave: \'@opengit:users\'');
     const AsyncStorageData = await AsyncStorage.getItem('@opengit:users');
-
     if (!AsyncStorageData) {
-      console.log('Não tem nada salvo no AsyncStorage');
+      console.log('>> Async Storage vazio');
       return null;
     }
+    console.log('>> Realizando parse dos dados no Async Storage');
     const AsyncStorageDataParsed = JSON.parse(AsyncStorageData);
+    console.log('>> Dados depois do parse: ', AsyncStorageDataParsed);
     return AsyncStorageDataParsed;
   }
 
   async function saveDeveloperDataInAsyncStorage(): Promise<void> {
+    console.log('>> Transformando array em string');
     const allDevelopersStringified = JSON.stringify(allDevelopers);
     await AsyncStorage.setItem('@opengit:users', allDevelopersStringified);
   }
 
   async function verifyDeveloperAlreadySaved(
-    dataFromAsyncStorage: User[],
+    dataFromAsyncStorage: User[] | null,
   ): Promise<User | false> {
-    console.log('Verificando se o usuário pesquisado existe no Async Storage');
-    const savedDeveloper = dataFromAsyncStorage.find(
-      data => data.username === developer,
+    console.log(
+      '>> Verificando se o usuário pesquisado existe no Async Storage',
     );
+    const savedDeveloper = dataFromAsyncStorage?.find(data => {
+      console.log(
+        `>> data.username: ${data.username} --- developer: ${developer}`,
+      );
+      return data.username === developer;
+    });
 
     if (!savedDeveloper) {
       console.log('>> Dev não existe no Async Storage');
@@ -154,28 +170,32 @@ export const Search: React.FC = () => {
   }
 
   async function searchDeveloper() {
+    console.log('>> Chamando a função -searchDeveloper-');
+    console.log('>> Recebendo dados do Async Storage');
     const responseAsyncStorageData = await fetchAsyncStorageData();
 
     if (!responseAsyncStorageData) {
       const developerData = await fetchGithubDeveloperData();
       if (developerData) {
+        console.log('>> Salvando usuário em array');
         setAllDevelopers(Array(developerData));
         await saveDeveloperDataInAsyncStorage();
+        console.log('>> Navegando para próxima rota');
         navigation.navigate('Profile', { user: developerData });
       }
     }
 
     const developerAlreadySaved = await verifyDeveloperAlreadySaved(
-      responseAsyncStorageData!,
+      responseAsyncStorageData,
     );
 
-    if (!developerAlreadySaved) {
-      const developerData = await fetchGithubDeveloperData();
-      if (developerData) {
+    const developerData = await fetchGithubDeveloperData();
+    if (developerData) {
+      if (!developerAlreadySaved) {
         setAllDevelopers([...allDevelopers, developerData]);
         await saveDeveloperDataInAsyncStorage();
-        navigation.navigate('Profile', { user: developerData });
       }
+      navigation.navigate('Profile', { user: developerData });
     }
   }
 
@@ -184,9 +204,15 @@ export const Search: React.FC = () => {
   // }
 
   async function handleCleanStorage() {
-    // await AsyncStorage.removeItem('@opengit:users');
+    await AsyncStorage.removeItem('@opengit:users');
+  }
+
+  async function handleShowStorage() {
     const response = await AsyncStorage.getItem('@opengit:users');
-    console.log(response);
+    console.log(
+      '>> Mostrando o que tem na chave <@opengit:users> : ',
+      response,
+    );
   }
 
   return (
@@ -209,13 +235,19 @@ export const Search: React.FC = () => {
       </View>
 
       {alreadySearch && (
-        <>
+        <View style={{ flexDirection: 'row' }}>
           <View style={styles.cleanButton}>
             <TouchableOpacity onPress={handleCleanStorage}>
               <Text style={styles.cleanButtonText}>Limpar</Text>
             </TouchableOpacity>
           </View>
-        </>
+
+          <View style={styles.cleanButton}>
+            <TouchableOpacity onPress={handleShowStorage}>
+              <Text style={styles.cleanButtonText}>Mostrar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       )}
     </View>
   );
@@ -269,6 +301,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 10,
     marginVertical: 10,
+    marginHorizontal: 20,
   },
   cleanButtonText: {
     fontSize: 20,

@@ -33,11 +33,10 @@ export const Profile: React.FC = () => {
           <Text style={styles.name}>{user.name}</Text>
           <Text style={styles.username}>{user.username}</Text>
         </View>
+        {user.biography && <Text style={styles.bio}>{user.biography}</Text>}
       </View>
 
       <View style={styles.infoContainer}>
-        {user.biography && <Text style={styles.bio}>{user.biography}</Text>}
-
         {user.company && (
           <View style={{ flexDirection: 'row' }}>
             <MaterialIcons name="work" size={30} color="#000" />
